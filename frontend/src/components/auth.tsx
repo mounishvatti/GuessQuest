@@ -16,7 +16,7 @@ import {
 } from "../store/slices/authSlice";
 import * as authService from "@/services/authService";
 import { toast } from "sonner";
-import { LogIn, LogOut, UserPlus } from "lucide-react";
+import { LogIn, UserPlus } from "lucide-react";
 import { useState } from "react";
 
 const AuthPage = () => {
@@ -67,9 +67,7 @@ const AuthPage = () => {
     try {
       const response = await authService.register(username, password);
       if (response.success && response.user && response.token) {
-        dispatch(
-          registerAction({ user: response.user, token: response.token })
-        );
+        dispatch(registerAction({ user: response.user, token: response.token }));
         toast.success(`Welcome, ${response.user.username}!`);
       } else {
         toast.error(response.message || "Registration failed");
@@ -81,12 +79,14 @@ const AuthPage = () => {
       setIsLoading(false);
     }
   };
+
   return (
-    <>
-      <div className="w-full max-w-md mx-auto">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-sky-300 to-bg-white via-white">
+      <img src="/working-vacation.svg" alt="Number Quest"/>
+      <div className="w-full max-w-lg mx-auto">
         <Card className="glass-panel">
           <CardHeader>
-            <CardTitle className="text-center text-3xl font-light tracking-tight">
+            <CardTitle className="text-center text-3xl font-light tracking-tight p-4 font-serif">
               Number Quest
             </CardTitle>
             <CardDescription className="text-center">
@@ -95,9 +95,8 @@ const AuthPage = () => {
           </CardHeader>
           <Tabs
             defaultValue={activeTab}
-            onValueChange={(value) =>
-              setActiveTab(value as "login" | "register")
-            }
+            onValueChange={(value) => setActiveTab(value as "login" | "register")}
+            className="p-4"
           >
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="login">Login</TabsTrigger>
@@ -149,16 +148,6 @@ const AuthPage = () => {
             <TabsContent value="register">
               <form onSubmit={handleRegister}>
                 <CardContent className="space-y-4">
-                <div className="space-y-2">
-                    <Input
-                      type="text"
-                      placeholder="Full Name"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      className="bg-white/50"
-                      required
-                    />
-                  </div>
                   <div className="space-y-2">
                     <Input
                       type="text"
@@ -200,7 +189,7 @@ const AuthPage = () => {
           </Tabs>
         </Card>
       </div>
-    </>
+    </div>
   );
 };
 

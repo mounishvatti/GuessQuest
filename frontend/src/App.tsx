@@ -5,8 +5,8 @@ import Faq from "./sections/faq";
 function App() {
   return (
     <>
-    <Header />
     <Features />
+    <Header />
     <Faq />
     </>
   );
