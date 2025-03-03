@@ -83,7 +83,7 @@ const AuthPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-sky-300 to-bg-white via-white">
       <img src="/working-vacation.svg" alt="Number Quest"/>
-      <div className="w-full max-w-lg mx-auto">
+      <div className="w-full max-w-lg mx-auto pr-20 z-50">
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="text-center text-3xl font-light tracking-tight p-4 font-serif">
@@ -148,6 +148,16 @@ const AuthPage = () => {
             <TabsContent value="register">
               <form onSubmit={handleRegister}>
                 <CardContent className="space-y-4">
+                <div className="space-y-2">
+                    <Input
+                      type="text"
+                      placeholder="Full Name"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="bg-white/50"
+                      required
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Input
                       type="text"
