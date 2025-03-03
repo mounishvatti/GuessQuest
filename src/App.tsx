@@ -1,9 +1,13 @@
 import "./App.css";
-import { Outlet } from "react-router-dom";
+import Header from "./sections/header";
+import Features from "./sections/features";
+import Faq from "./sections/faq";
 function App() {
   return (
     <>
-    <Outlet />
+    <Header />
+    <Features />
+    <Faq />
     </>
   );
 }

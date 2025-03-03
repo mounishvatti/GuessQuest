@@ -126,7 +126,7 @@ const GameBoard: React.FC = () => {
       }
       
       buttons.push(
-        <button
+        <Button
           key={i}
           onClick={() => handleGuess(i)}
           disabled={isGuessed || isGameOver}
@@ -134,7 +134,7 @@ const GameBoard: React.FC = () => {
           aria-label={`Guess number ${i}`}
         >
           {i}
-        </button>
+        </Button>
       );
     }
     return buttons;
@@ -147,9 +147,9 @@ const GameBoard: React.FC = () => {
       <Card className="glass-panel overflow-hidden">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="font-light tracking-tight">Number Quest</CardTitle>
+            <CardTitle className="font-light tracking-tight font-serif">Number Quest</CardTitle>
             <div className="flex gap-2">
-              <Badge variant="neutral" className="flex items-center gap-1">
+              <Badge variant="default" className="flex items-center gap-1">
                 <Target size={14} />
                 Guesses Left: {guessesLeft}
               </Badge>
@@ -164,7 +164,7 @@ const GameBoard: React.FC = () => {
         </CardHeader>
         
         <CardContent>
-          <div className="text-center mb-6">
+          <div className="text-center mb-6 font-serif">
             <p className={`text-lg font-medium ${newRecord ? 'text-primary animate-pulse-scale' : ''}`}>
               {message}
             </p>
@@ -187,7 +187,7 @@ const GameBoard: React.FC = () => {
                 >
                   {isLoading ? (
                     <span className="flex items-center gap-2">
-                      <Rotate className="animate-spin" size={18} />
+                      <Rotate3D className="animate-spin" size={18} />
                       Saving...
                     </span>
                   ) : (

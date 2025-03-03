@@ -14,10 +14,12 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Leaderboard from "./components/Leaderboard.tsx";
 import GameBoard from "./components/GameBoard.tsx";
+import Layout from "./Layout.tsx";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path="/" element={<Layout />}>
+      <Route path="/home" element={<App />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/game" element={<GameBoard />} />
       <Route path="/leader-board" element={<Leaderboard />} />
