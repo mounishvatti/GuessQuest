@@ -15,7 +15,7 @@ const CelebrationEffect: React.FC = () => {
     const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FB8F67', '#98D8C8'];
     const newConfettis: Confetti[] = [];
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 200; i++) { // Increase the number of confetti pieces
       newConfettis.push({
         id: i,
         x: Math.random() * 100,
@@ -29,7 +29,7 @@ const CelebrationEffect: React.FC = () => {
     // Clean up after animation finishes
     const timer = setTimeout(() => {
       setConfettis([]);
-    }, 3000);
+    }, 5000); // Increase the duration of the confetti effect
     
     return () => clearTimeout(timer);
   }, []);
@@ -44,7 +44,9 @@ const CelebrationEffect: React.FC = () => {
             left: `${confetti.x}%`,
             top: `${confetti.y}%`,
             backgroundColor: confetti.color,
-            animationDelay: `${Math.random() * 0.5}s`
+            animationDelay: `${Math.random() * 0.5}s`,
+            animationDuration: '2s', // Adjust the animation duration
+            animationName: 'fall', // Add a custom animation
           }}
         />
       ))}

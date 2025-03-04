@@ -1,4 +1,8 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { loginService, registerService } from "../services/authService";
 import {
   Card,
   CardContent,
@@ -8,24 +12,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useDispatch, useSelector } from "react-redux";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  login as loginAction,
-  register as registerAction,
-} from "../store/slices/authSlice";
-import * as authService from "@/services/authService";
+import { login as loginAction, register as registerAction } from "../store/slices/authSlice";
 import { toast } from "sonner";
 import { LogIn, UserPlus } from "lucide-react";
-import { useState } from "react";
 
-const AuthPage = () => {
+const AuthPage: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      navigate("/game");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,12 +43,12 @@ const AuthPage = () => {
 
     setIsLoading(true);
     try {
-      const response = await authService.login(username, password);
-      if (response.success && response.user && response.token) {
+      const response = await loginService(username, password);
+      if (response) {
         dispatch(loginAction({ user: response.user, token: response.token }));
         toast.success(`Welcome back, ${response.user.username}!`);
       } else {
-        toast.error(response.message || "Login failed");
+        toast.error(response.data.message || "Login failed");
       }
     } catch (error) {
       toast.error("An error occurred during login");
@@ -53,8 +60,8 @@ const AuthPage = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !password) {
-      toast.error("Please enter both username and password");
+    if (!fullName || !username || !password) {
+      toast.error("Please enter your full name, username, and password");
       return;
     }
 
@@ -65,9 +72,9 @@ const AuthPage = () => {
 
     setIsLoading(true);
     try {
-      const response = await authService.register(username, password);
-      if (response.success && response.user && response.token) {
-        dispatch(registerAction({ user: response.user, token: response.token }));
+      const response = await registerService(fullName, username, password);
+      if (response) {
+        dispatch(registerAction({ user: response.user }));
         toast.success(`Welcome, ${response.user.username}!`);
       } else {
         toast.error(response.message || "Registration failed");
@@ -82,12 +89,12 @@ const AuthPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-sky-300 to-bg-white via-white">
-      <img src="/working-vacation.svg" alt="Number Quest"/>
+      <img src="/working-vacation.svg" alt="Number Quest" />
       <div className="w-full max-w-lg mx-auto pr-20 z-50">
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="text-center text-3xl font-light tracking-tight p-4 font-serif">
-              Number Quest
+              GuessQuest
             </CardTitle>
             <CardDescription className="text-center">
               Sign in to play and track your scores
@@ -148,12 +155,12 @@ const AuthPage = () => {
             <TabsContent value="register">
               <form onSubmit={handleRegister}>
                 <CardContent className="space-y-4">
-                <div className="space-y-2">
+                  <div className="space-y-2">
                     <Input
                       type="text"
                       placeholder="Full Name"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="bg-white/50"
                       required
                     />

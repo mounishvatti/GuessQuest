@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import {
   startNewGame,
   makeGuess,
   acknowledgeNewRecord,
+  setBestScore,
 } from "../store/slices/gameSlice";
-import { addLeaderboardEntry } from "../store/slices/leaderboardSlice";
 import * as gameService from "../services/gameService";
 import {
   Card,
@@ -21,6 +22,8 @@ import { Rotate3D, RefreshCcw, Trophy, Target } from "lucide-react";
 import CelebrationEffect from "./CelebrationEffect";
 
 const GameBoard: React.FC = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const {
@@ -37,6 +40,13 @@ const GameBoard: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+
+  // Redirect to /auth if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/auth");
+    }
+  }, [isAuthenticated, navigate]);
 
   // Start a new game when component mounts
   useEffect(() => {
@@ -67,12 +77,13 @@ const GameBoard: React.FC = () => {
     if (!user) return;
 
     try {
-      const score = await gameService.getUserBestScore(user.id);
-      if (score > 0) {
-        dispatch({ type: "game/setBestScore", payload: score });
+      const scores = await gameService.getUserScores();
+      if (scores.length > 0) {
+        const bestScore = Math.max(...scores);
+        dispatch(setBestScore(bestScore));
       }
     } catch (error) {
-      console.error("Failed to load user score", error);
+      console.error("Failed to load user scores", error);
     }
   };
 
@@ -95,20 +106,15 @@ const GameBoard: React.FC = () => {
 
     setIsLoading(true);
     try {
+      // Save score to backend
+      const response = await gameService.saveScore({ value: currentScore });
+
       // Update user's best score if current score is higher
       if (currentScore > bestScore) {
-        await gameService.updateUserBestScore(user.id, currentScore);
+        dispatch(setBestScore(currentScore));
       }
-
-      // Save to leaderboard
-      const leaderboardEntry = await gameService.saveScore({
-        id: Date.now().toString(),
-        username: user.username,
-        score: currentScore,
-      });
-
-      dispatch(addLeaderboardEntry(leaderboardEntry));
-      toast.success("Score saved to leaderboard!");
+      toast.success("Saved score");
+      console.log(response.data);
     } catch (error) {
       toast.error("Failed to save score");
       console.error(error);
@@ -154,6 +160,7 @@ const GameBoard: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-yellow-400 to-white via-white">
       <div className="w-full max-w-lg mx-auto relative place-content-center">
         {showCelebration && <CelebrationEffect />}
+        {isAuthenticated && <p className="text-center text-2xl font-serif">Welcome back, {user.name}!</p>}
         <img src="/think.svg" alt="Number Quest" className="w-72 mx-auto" />
         <Card className="glass-panel overflow-hidden p-6">
           <CardHeader>
@@ -162,12 +169,12 @@ const GameBoard: React.FC = () => {
                 Number Quest
               </CardTitle>
               <div className="flex gap-2">
-                <Badge variant="default" className="flex items-center gap-1 text-lg">
+                <Badge variant="default" className="flex items-center gap-1 text-sm">
                   <Target size={18} />
                   Guesses Left: {guessesLeft}
                 </Badge>
                 {bestScore > 0 && (
-                  <Badge variant="neutral" className="flex items-center gap-1 text-lg">
+                  <Badge variant="neutral" className="flex items-center gap-1 text-sm">
                     <Trophy size={18} />
                     Best: {bestScore}
                   </Badge>

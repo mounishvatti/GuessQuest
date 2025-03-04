@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // Define types for auth state
 interface User {
   id: string;
+  name: string;
   username: string;
 }
 
@@ -28,15 +29,19 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
+      localStorage.setItem("session", state.isAuthenticated.toString());
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
+      localStorage.setItem('token', action.payload.token);
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     },
-    register: (state, action: PayloadAction<{ user: User; token: string }>) => {
+    register: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
       state.isAuthenticated = true;
     },
   },

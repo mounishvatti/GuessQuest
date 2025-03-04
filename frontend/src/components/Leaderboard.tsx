@@ -1,53 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchLeaderboard,
-  fetchLeaderboardSuccess,
-} from "../store/slices/leaderboardSlice";
-import * as gameService from "../services/gameService";
+import { getLeaderboard } from "../services/gameService";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Trophy, Medal, Award } from "lucide-react";
 
 const Leaderboard: React.FC = () => {
-  const dispatch = useDispatch();
-  const { entries, loading } = useSelector((state) => state.leaderboard);
-  const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load leaderboard when component mounts
-    loadLeaderboard();
-
-    // Set up refresh interval
-    const interval = setInterval(() => {
-      loadLeaderboard();
-    }, 30000); // Refresh every 30 seconds
-
-    setRefreshInterval(interval);
-
-    // Clean up interval when component unmounts
-    return () => {
-      if (refreshInterval) clearInterval(refreshInterval);
+    const fetchLeaderboard = async () => {
+      try {
+        const data = await getLeaderboard();
+        setLeaderboard(data);
+      } catch (error) {
+        console.error("Failed to fetch leaderboard", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchLeaderboard();
   }, []);
-
-  const loadLeaderboard = async () => {
-    dispatch(fetchLeaderboard());
-    try {
-      const data = await gameService.getLeaderboard();
-      dispatch(fetchLeaderboardSuccess(data));
-    } catch (error) {
-      console.error("Failed to load leaderboard", error);
-    }
-  };
-
-  // Format date for display
-  const formatDate = (timestamp: number) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString();
-  };
 
   // Get medal for top 3 positions
   const getMedal = (position: number) => {
@@ -64,7 +38,7 @@ const Leaderboard: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-amber-400 to-white via-white">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-yellow-400 to-white via-white">
       <img src="/communication.svg" alt="GuessQuest" className="w-96 mx-auto" />
       <Card className="glass-panel w-full max-w-md mx-auto h-[400px] max-h-[70vh]">
         <CardHeader>
@@ -78,7 +52,7 @@ const Leaderboard: React.FC = () => {
             <div className="flex justify-center items-center h-[300px]">
               <div className="animate-spin h-8 w-8 rounded-full border-4 border-primary border-t-transparent"></div>
             </div>
-          ) : entries.length === 0 ? (
+          ) : leaderboard.length === 0 ? (
             <div className="text-center py-10 text-muted-foreground">
               No scores yet. Be the first to play!
             </div>
@@ -94,7 +68,7 @@ const Leaderboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {entries.map((entry, index) => (
+                  {leaderboard.map((entry, index) => (
                     <tr
                       key={entry.id}
                       className={`border-b border-border/30 ${
@@ -105,10 +79,10 @@ const Leaderboard: React.FC = () => {
                         {getMedal(index)}
                         <span className="ml-1">{index + 1}</span>
                       </td>
-                      <td className="py-3">{entry.username}</td>
-                      <td className="py-3 text-right">{entry.score}</td>
+                      <td className="py-3">{entry.user.username}</td>
+                      <td className="py-3 text-right">{entry.value}</td>
                       <td className="py-3 text-right text-muted-foreground text-sm">
-                        {formatDate(entry.timestamp)}
+                        {new Date(entry.date).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}

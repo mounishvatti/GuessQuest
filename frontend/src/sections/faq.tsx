@@ -13,7 +13,7 @@ export default function Faq() {
           <img
             src="/beehive.png"
             alt="GuessQuest"
-            className="w-60 flex items-start justify-start"
+            className="w-72 flex items-start justify-start"
           />
         </div>
         <div className="mx-auto grid w-[700px] max-w-full px-5">
