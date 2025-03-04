@@ -36,8 +36,8 @@ const Leaderboard: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-yellow-400 to-white via-white">
-      <img src="/communication.svg" alt="GuessQuest" className="w-96 mx-auto" />
+    <div className="flex-col md:flex-row items-center justify-center min-h-screen bg-gradient-to-t from-yellow-400 to-white via-white">
+      <img src="/communication.svg" alt="GuessQuest" className="w-48 md:w-60 mx-auto mb-4 md:mb-6 md:mt-6" />
       <Card className="glass-panel w-full max-w-md mx-auto h-[400px] max-h-[70vh]">
         <CardHeader>
           <CardTitle className="font-bold text-xl tracking-tight flex items-center gap-2 font-serif">

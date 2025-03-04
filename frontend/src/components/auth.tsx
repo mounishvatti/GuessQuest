@@ -31,7 +31,7 @@ const AuthPage: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       navigate("/game");
     }
   }, [isAuthenticated, navigate]);
@@ -92,8 +92,8 @@ const AuthPage: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-sky-300 to-bg-white via-white">
-      <img src="/working-vacation.svg" alt="Number Quest" />
-      <div className="w-full max-w-lg mx-auto pr-20 z-50">
+      <img src="/working-vacation.svg" alt="Number Quest" className="hidden md:block"/>
+      <div className="w-full max-w-lg mx-auto md:pr-20 z-50">
         <Card className="glass-panel">
           <CardHeader>
             <CardTitle className="text-center text-3xl font-light tracking-tight p-4 font-serif">
