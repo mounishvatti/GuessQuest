@@ -162,7 +162,7 @@ const GameBoard: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-t from-yellow-400 to-white via-white">
       <div className="w-full max-w-lg mx-auto relative place-content-center">
         {showCelebration && <CelebrationEffect />}
-        {isAuthenticated && <p className="text-center text-2xl font-serif">Welcome back, {user.name}!</p>}
+        {isAuthenticated && user && <p className="text-center text-2xl font-serif">Welcome back, {user.name}!</p>}
         <img src="/think.svg" alt="Number Quest" className="w-72 mx-auto" />
         <Card className="glass-panel overflow-hidden p-6">
           <CardHeader>
