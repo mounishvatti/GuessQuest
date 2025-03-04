@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Whitelisted origins
-const whitelist = ["http://localhost:5173", "https://guessquestgame.netlify.app/"];
+const whitelist = ["http://localhost:5173", "https://guessquestgame.netlify.app"];
 
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
