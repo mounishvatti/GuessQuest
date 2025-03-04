@@ -8,4 +8,3 @@ export const rootReducer = combineReducers({
   game: gameReducer,
   leaderboard: leaderboardReducer,
 });
-export type RootState = ReturnType<typeof rootReducer>;

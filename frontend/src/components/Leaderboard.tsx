@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { getLeaderboard } from "../services/gameService";
+import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Trophy, Medal, Award, User } from "lucide-react";
+import { fetchLeaderboard } from "@/store/slices/leaderboardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const Leaderboard: React.FC = () => {
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const leaderboard = useSelector((state: RootState) => state.leaderboard.entries);
+  const loading = useSelector((state: RootState) => state.leaderboard.loading);
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const data = await getLeaderboard();
-        setLeaderboard(data);
-      } catch (error) {
-        console.error("Failed to fetch leaderboard", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
-  }, []);
+    //@ts-ignore
+    dispatch(fetchLeaderboard());
+    const interval = setInterval(() => {
+      //@ts-ignore
+      dispatch(fetchLeaderboard());
+    }, 30000); // Refresh every 30 seconds
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   // Get medal for top 3 positions
   const getMedal = (position: number) => {

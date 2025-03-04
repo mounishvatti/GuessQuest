@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppThunk } from '@/store';
+import { getLeaderboard } from '@/services/gameService';
 
 export interface LeaderboardEntry {
   id: string;
-  username: string;
-  score: number;
-  timestamp: number;
+  user: {
+    username: string;
+  }
+  value: number;
+  date: string;
 }
 
 interface LeaderboardState {
@@ -19,13 +23,11 @@ const initialState: LeaderboardState = {
   error: null,
 };
 
-// For now, we'll mock the leaderboard in the store
-// Later we'll connect to a real backend
 const leaderboardSlice = createSlice({
   name: 'leaderboard',
   initialState,
   reducers: {
-    fetchLeaderboard: (state) => {
+    fetchLeaderboardStart: (state) => {
       state.loading = true;
       state.error = null;
     },
@@ -43,7 +45,7 @@ const leaderboardSlice = createSlice({
     addLeaderboardEntry: (state, action: PayloadAction<LeaderboardEntry>) => {
       state.entries.push(action.payload);
       // Sort by score in descending order
-      state.entries.sort((a, b) => b.score - a.score);
+      state.entries.sort((a, b) => b.value - a.value);
       // Keep only top 10
       state.entries = state.entries.slice(0, 10);
     },
@@ -51,10 +53,21 @@ const leaderboardSlice = createSlice({
 });
 
 export const {
-  fetchLeaderboard,
+  fetchLeaderboardStart,
   fetchLeaderboardSuccess,
   fetchLeaderboardFailure,
   addLeaderboardEntry,
 } = leaderboardSlice.actions;
+
+export const fetchLeaderboard = (): AppThunk => async (dispatch) => {
+  try {
+    dispatch(fetchLeaderboardStart());
+    const leaderboard = await getLeaderboard();
+    dispatch(fetchLeaderboardSuccess(leaderboard));
+  } catch (error) {
+    //@ts-ignore
+    dispatch(fetchLeaderboardFailure(error.toString()));
+  }
+};
 
 export default leaderboardSlice.reducer;

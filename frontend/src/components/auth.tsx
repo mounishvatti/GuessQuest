@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { login as loginAction, register as registerAction } from "../store/slices/authSlice";
 import { toast } from "sonner";
 import { LogIn, UserPlus } from "lucide-react";
+import { RootState } from "@/store";
 
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const AuthPage: React.FC = () => {
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
   const dispatch = useDispatch();
 

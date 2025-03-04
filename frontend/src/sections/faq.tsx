@@ -8,15 +8,15 @@ import {
 export default function Faq() {
   return (
     <div className="w-full">
-      <section className="dark:bg-darkBg bg-bg py-20 font-base lg:py-[100px] flex items-center justify-center">
-        <div>
+      <section className="dark:bg-darkBg bg-bg py-20 font-base lg:py-[100px] flex flex-col items-center justify-center">
+        <div className="mb-8 hidden sm:block">
           <img
             src="/beehive.png"
             alt="GuessQuest"
-            className="w-72 flex items-start justify-start"
+            className="w-48 sm:w-56 md:w-64 lg:w-72"
           />
         </div>
-        <div className="mx-auto grid w-[700px] max-w-full px-5">
+        <div className="mx-auto w-full max-w-2xl px-5">
           <Accordion className="text-base sm:text-lg" type="single" collapsible>
             <AccordionItem className="mb-2" value="item-1">
               <AccordionTrigger>How to play?</AccordionTrigger>
@@ -28,9 +28,7 @@ export default function Faq() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem className="mb-2" value="item-2">
-              <AccordionTrigger>
-                Where do I see the leaderboard?
-              </AccordionTrigger>
+              <AccordionTrigger>Where do I see the leaderboard?</AccordionTrigger>
               <AccordionContent>
                 The leaderboard is where you can see how you stack up against
                 other players. It's like a scoreboard, but cooler. Just click on
@@ -39,9 +37,7 @@ export default function Faq() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem className="mb-2" value="item-3">
-              <AccordionTrigger>
-                Are you sure that you aren't biased?
-              </AccordionTrigger>
+              <AccordionTrigger>Are you sure that you aren't biased?</AccordionTrigger>
               <AccordionContent>
                 We promise, our game is as unbiased as a cat deciding whether to
                 sit on your lap or your keyboard. We use advanced algorithms and

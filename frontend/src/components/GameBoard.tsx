@@ -20,12 +20,13 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Rotate3D, RefreshCcw, Trophy, Target } from "lucide-react";
 import CelebrationEffect from "./CelebrationEffect";
+import { RootState } from "@/store";
 
 const GameBoard: React.FC = () => {
   const navigate = useNavigate();
-  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
-  const { user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   
   const {
     secretNumber,
@@ -37,7 +38,7 @@ const GameBoard: React.FC = () => {
     currentScore,
     bestScore,
     newRecord,
-  } = useSelector((state: any) => state.game);
+  } = useSelector((state: RootState) => state.game);
 
   const [isLoading, setIsLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
