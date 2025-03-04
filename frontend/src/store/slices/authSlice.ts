@@ -40,7 +40,7 @@ const authSlice = createSlice({
     },
     register: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
-      state.isAuthenticated = true;
+      state.isAuthenticated = false;
     },
   },
 });

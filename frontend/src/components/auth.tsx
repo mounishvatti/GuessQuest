@@ -77,7 +77,8 @@ const AuthPage: React.FC = () => {
       const response = await registerService(fullName, username, password);
       if (response) {
         dispatch(registerAction({ user: response.user }));
-        toast.success(`Welcome, ${response.user.username}!`);
+        toast.success(`Hello, ${response.user}! Please login to continue`);
+        setActiveTab("login");
       } else {
         toast.error(response.message || "Registration failed");
       }
