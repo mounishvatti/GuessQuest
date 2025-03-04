@@ -38,6 +38,10 @@ importers:
       prisma:
         specifier: ^6.4.1
         version: 6.4.1(typescript@5.6.3)
+    devDependencies:
+      typescript:
+        specifier: ~5.6.2
+        version: 5.6.3
 
   frontend:
     dependencies:
