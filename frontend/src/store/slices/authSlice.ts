@@ -19,8 +19,6 @@ const initialState: AuthState = {
   isAuthenticated: false,
 };
 
-// For now, we'll mock users in local storage
-// Later we'll connect to a real backend
 const authSlice = createSlice({
   name: 'auth',
   initialState,
