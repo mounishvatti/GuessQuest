@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import {BACKEND_URL} from "@/constants"
+import {BACKEND_PROD_URL} from "@/constants"
 export interface UserScore {
   value: number;
   date: string;
@@ -9,7 +9,7 @@ export interface UserScore {
 }
 
 export const saveScore = async (scoreData: { value: number }) => {
-  const res = await axios.post(`${BACKEND_URL}/api/scores`, scoreData, {
+  const res = await axios.post(`${BACKEND_PROD_URL}/api/scores`, scoreData, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -20,7 +20,7 @@ export const saveScore = async (scoreData: { value: number }) => {
 
 
 export const getUserScores = async () => {
-  const response = await axios.get(`${BACKEND_URL}/api/scores`, {
+  const response = await axios.get(`${BACKEND_PROD_URL}/api/scores`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -29,6 +29,6 @@ export const getUserScores = async () => {
 };
 
 export const getLeaderboard = async () => {
-  const response = await axios.get(`${BACKEND_URL}/api/scores/leaderboard`);
+  const response = await axios.get(`${BACKEND_PROD_URL}/api/scores/leaderboard`);
   return response.data.leaderboard;
 };
