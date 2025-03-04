@@ -1,0 +1,3 @@
+[build]
+  command = "cd frontend && pnpm install && pnpm run build"
+  publish = "frontend/dist"
