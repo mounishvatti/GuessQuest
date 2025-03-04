@@ -29,7 +29,7 @@ const UserProfile: React.FC = () => {
         <img src="/userscore.svg" alt="GuessQuest" className="w-96 mx-auto" />
       <Card className="glass-panel w-full max-w-md mx-auto h-[400px] max-h-[70vh]">
         <CardHeader>
-          <CardTitle className="font-light tracking-tight flex items-center gap-2">
+          <CardTitle className="font-bold text-xl tracking-tight flex items-center gap-2 font-serif">
             {user.name}'s Scores
           </CardTitle>
         </CardHeader>

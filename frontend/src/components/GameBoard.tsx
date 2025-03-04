@@ -25,7 +25,8 @@ const GameBoard: React.FC = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state: any) => state.auth);
+  
   const {
     secretNumber,
     guessesLeft,
@@ -36,7 +37,7 @@ const GameBoard: React.FC = () => {
     currentScore,
     bestScore,
     newRecord,
-  } = useSelector((state) => state.game);
+  } = useSelector((state: any) => state.game);
 
   const [isLoading, setIsLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);

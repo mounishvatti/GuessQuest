@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { getLeaderboard } from "../services/gameService";
 import { Trophy, Medal, Award } from "lucide-react";
 
 interface LeaderboardEntry {
   id: string;
-  username: string;
   value: number;
+  user: {
+    username: string;
+  }
 }
 
 export default function Features() {

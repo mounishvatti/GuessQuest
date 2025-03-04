@@ -24,6 +24,7 @@ const AuthPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
 
   const dispatch = useDispatch();

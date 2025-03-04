@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getLeaderboard } from "../services/gameService";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Trophy, Medal, Award } from "lucide-react";
+import { Trophy, Medal, Award, User } from "lucide-react";
 
 const Leaderboard: React.FC = () => {
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
@@ -27,13 +27,13 @@ const Leaderboard: React.FC = () => {
   const getMedal = (position: number) => {
     switch (position) {
       case 0:
-        return <Trophy size={20} className="text-gold animate-pulse-scale" />;
+        return <Trophy size={20} className="text-amber-500 animate-pulse-scale" />;
       case 1:
-        return <Medal size={20} className="text-silver" />;
+        return <Medal size={20} className="text-zinc-500" />;
       case 2:
-        return <Award size={20} className="text-bronze" />;
+        return <Award size={20} className="text-amber-700" />;
       default:
-        return null;
+        return <User size={20} className="text-zinc-700" />;
     }
   };
 
@@ -42,8 +42,8 @@ const Leaderboard: React.FC = () => {
       <img src="/communication.svg" alt="GuessQuest" className="w-96 mx-auto" />
       <Card className="glass-panel w-full max-w-md mx-auto h-[400px] max-h-[70vh]">
         <CardHeader>
-          <CardTitle className="font-light tracking-tight flex items-center gap-2">
-            <Trophy size={20} className="text-primary" />
+          <CardTitle className="font-bold text-xl tracking-tight flex items-center gap-2 font-serif">
+            🏆
             Leaderboard
           </CardTitle>
         </CardHeader>
@@ -77,11 +77,11 @@ const Leaderboard: React.FC = () => {
                     >
                       <td className="py-3 flex items-center">
                         {getMedal(index)}
-                        <span className="ml-1">{index + 1}</span>
+                        <span className="ml-1">#{index + 1}</span>
                       </td>
-                      <td className="py-3">{entry.user.username}</td>
-                      <td className="py-3 text-right">{entry.value}</td>
-                      <td className="py-3 text-right text-muted-foreground text-sm">
+                      <td className="py-3 font-serif">{entry.user.username}</td>
+                      <td className="py-3 text-right font-serif">{entry.value}</td>
+                      <td className="py-3 text-right text-muted-foreground text-sm font-serif">
                         {new Date(entry.date).toLocaleDateString()}
                       </td>
                     </tr>

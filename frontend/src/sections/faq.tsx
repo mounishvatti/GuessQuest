@@ -34,7 +34,7 @@ export default function Faq() {
               <AccordionContent>
                 The leaderboard is where you can see how you stack up against
                 other players. It's like a scoreboard, but cooler. Just click on
-                the "Leaderboard" tab and prepare to be amazed by the high
+                the "Leaderboard" tab the "Trophy" icon from the navigation menu and prepare to be amazed by the high
                 scores. Or, you know, mildly impressed.
               </AccordionContent>
             </AccordionItem>
@@ -57,6 +57,12 @@ export default function Faq() {
                 tell all your friends and family about your amazing achievement.
                 You might even get a virtual high-five from us. But seriously,
                 it's all about the fun and the glory.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem className="mb-2" value="item-6">
+              <AccordionTrigger>Where do I see my past scores?</AccordionTrigger>
+              <AccordionContent>
+                Click on the "User" icon from the navigation menu to view your past scores, Note: You must be logged in to view your scores.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
