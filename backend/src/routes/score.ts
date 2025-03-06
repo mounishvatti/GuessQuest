@@ -1,26 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import prisma from "../db";
-import jwt from "jsonwebtoken";
-
+import authenticate from "../middleware/middleware";
 interface AuthenticatedRequest extends Request {
   userId?: string;
 }
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
-
-const authenticate = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "Unauthorized" });
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
-    req.userId = (decoded as jwt.JwtPayload).userId;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: "Invalid Token" });
-  }
-};
 
 // 🟢 Submit a new score
 //@ts-ignore
