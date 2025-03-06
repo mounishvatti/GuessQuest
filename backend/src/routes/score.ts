@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import prisma from "../db";
 import authenticate from "../middleware/middleware";
 interface AuthenticatedRequest extends Request {
