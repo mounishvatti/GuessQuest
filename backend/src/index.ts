@@ -29,7 +29,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/scores", scoreRoutes);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/healthz", (req: Request, res: Response) => {
     res.send("Hello from backend!");
 });
 
