@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Whitelisted origins
-const whitelist = ["http://localhost:5173", "https://guessquestgame.netlify.app"];
+const whitelist = ["http://localhost:5173/", "https://guessquestgame.netlify.app/"];
 
 const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/scores", scoreRoutes);
 
-app.get("/healthz", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
     res.send("Hello from backend!");
 });
 
